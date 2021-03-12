@@ -4,15 +4,11 @@
  */
 
 const fs = require('fs'); //文件模块
-const marked = require('marked'); //md转html模块
 const request = require('request'); //http请求模块
-const path = require('path'); //路径模块
-let fileName = '';
-const dist = '';
-const template = require('./indexTemplate');
+let template = require('./indexTemplate');
 
-function updateIndex(target, _dist, listHtml) {
-    dist = _dist;
+function updateIndex(target, listHtml) {
+    console.log("开始更新")
     fs.readFile(target, 'utf-8', (err, data) => { //读取文件
         if (err) {
             throw err;
@@ -31,6 +27,7 @@ function createMarkdownCss(fn) {
     var url = 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css';
     request(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
+            console.log(body)
             fn && fn(body);
         }
     });
@@ -52,4 +49,4 @@ function createFile(content) {
     });
 }
 
-module.exports = Md2Html;
+module.exports = updateIndex;

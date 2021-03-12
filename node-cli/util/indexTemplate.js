@@ -137,7 +137,6 @@ const template = `
         </div>
         <div class="right-content">
         {{{list}}}
-            <!-- <div><a href="blogs/TEST.html">测试博客标题123123123213</a></div> -->
         </div>
     </div>
 </body>
