@@ -79,7 +79,6 @@ class Md2Html {
         var url = 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css';
         this.request(url, function (error, response, body) {
             if (!error && response.statusCode == 200) {
-                console.log(body);
                 fn && fn(body);
             }
         });
