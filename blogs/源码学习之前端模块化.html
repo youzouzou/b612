@@ -3,9 +3,9 @@
             <head>
             <meta charset="utf-8" >
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>TEST</title>
-            <meta name="keywords" content="关键词1,关键词2">
-            <meta name="description" content="测试">
+            <title>源码学习之前端模块化</title>
+            <meta name="keywords" content="模块化,vue,源码,AMD,CommonJS">
+            <meta name="description" content="带你解读源码中的前端模块化，了解AMD规范和CommonJS规范的兼容写法">
             <style>
                 .markdown-body {
                     box-sizing: border-box;
@@ -25,13 +25,74 @@
             </head>
             <body>
                 <article class="markdown-body">
-                    <h1 id="测试">测试</h1>
-<p>hhhhhhhh</p>
-<p>12312313113</p>
+                    <blockquote>
+<p>《源码学习之前端模块化》</p>
+</blockquote>
+<h4 id="一、什么是模块化">一、什么是模块化</h4>
+<p>模块化并不是前端独有的思想。模块化是一种自顶向下的过程，通过把一个大的系统，逐步划分为一个个小的模块，这些模块内部封装了一些特定的功能，通过约定的接口对外暴露。各个模块之间互不干扰，易于插拔。
+模块化可以解耦代码，更好地进行复用，每个模块之间互不影响，不用担心变量污染、命名冲突等问题，同时也有利于并行开发，提升效率。
+js最初是没有模块化的。随着前端应用越来越复杂，比如，当一个html页面要请求多个js文件时，如何保证这些js文件之间的变量互不干扰？为了解决诸如变量污染、命名冲突的问题，js开始出现了一些模块化的方案，从2003年提出的闭包模块化，再到2009年的CommonJS和AMD，以及如今的ES模块化。</p>
+<h4 id="二、为什么需要模块化">二、为什么需要模块化</h4>
+<p>模块化的好处可以总结为以下几点：</p>
 <ul>
-<li><input disabled="" type="checkbox"> 测试</li>
-<li><input checked="" disabled="" type="checkbox"> 哈哈</li>
+<li>拥有独立作用域，避免变量污染、命名冲突</li>
+<li>降低项目复杂度，提高开发效率</li>
+<li>提升代码可复用性和可维护性</li>
 </ul>
+<h4 id="三、源码中的模块化">三、源码中的模块化</h4>
+<p>在上述提到的AMD和Commonjs规范，对于模块化的定义不尽相同，在进行模块化时需要对不同环境进行兼容处理。</p>
+<h5 id="31-amd">3.1 AMD</h5>
+<p>AMD(Asynchronous Module Definition)，异步模块定义。在加载模块以及模块所依赖的其它模块时，AMD都采用<strong>异步加载</strong>的方式，避免模块加载阻塞网页渲染。
+AMD作为一个规范，只需定义其语法API，而不关心其实现。AMD规范简单到只有一个API，即模块定义define函数：</p>
+<p><code>define(name?, [dependencies]?, factory)</code></p>
+<ul>
+<li>name是模块的标识，如果未提供则以文件名为标识；</li>
+<li>dependencies表示所依赖的模块；</li>
+<li>factory是模块初始化要执行的函数或对象，如果是函数，只执行一次，如果是对象，即为模块输出值。</li>
+</ul>
+<blockquote>
+<p>AMD规范主要是针对前端浏览器的规范。</p>
+</blockquote>
+<h5 id="32-commonjs">3.2 Commonjs</h5>
+<p>CommonJS规范规定，每个模块内部，module变量代表当前模块。这个变量是一个对象，它的exports属性（即<code>module.exports</code>）是对外的接口。加载某个模块，其实是加载该模块的module.exports属性。</p>
+<p>CommonJS规范加载模块是<strong>同步加载</strong>的，也就是说，只有加载完成，才能执行后面的操作。</p>
+<p>模块定义语法：
+<code>module.exports=factory()</code></p>
+<blockquote>
+<p>CommonJS主要是针对浏览器之外的js环境的规范。</p>
+</blockquote>
+<h5 id="33-vue源码解析之模块化">3.3 Vue源码解析之模块化</h5>
+<p>以vue2的源码为例，将源码折叠后你会看到如下代码：
+<img src="../assets/vue-source-code-fold.png" alt="vue源码"></p>
+<p>这是一个<code>匿名自执行函数</code>，这个匿名函数拥有独立的作用域，既避免污染外界代码，也避免被外界代码污染。
+如果需要用到外界的全局变量，可以通过参数传入，如图中的<code>this</code>，这个<code>this</code>实际上是<code>Window</code>对象，通过传入 <code>this</code>，使得<code>Window</code>由全局变量变为局部变量，当在后面那个代码块中访问 <code>this</code>时，不需要将作用域链回退到顶层作用域，这样可以更快的访问<code>Window</code>对象；将 <code>Window</code>作为参数传入，也可以在压缩代码时进行优化。如：<code>(function(a,b){})(window); // window 被优化为 a</code>。
+<code>global</code>即自执行传进来的<code>this</code>参数，也就是Window对象。
+<code>factory</code>即传进来的第二个参数，也就是后面那个匿名函数。
+展开第一个function可以看到如下代码：</p>
+<pre><code class="language-js">typeof exports === &#39;object&#39; &amp;&amp; typeof module !== &#39;undefined&#39; ? module.exports = factory() :
+    typeof define === &#39;function&#39; &amp;&amp; define.amd ? define(factory) :
+      (global = global || self, global.Vue = factory());
+</code></pre>
+<p>这段代码的作用是检测当前的运行环境支持哪种模块化规范，然后将Vue模块化，其中exports是Commonjs规范，define是AMD的规范。
+在源码中可以看到，factory()最后return的是一个Vue对象。
+当检测出为Commonjs规范时，导出Vue对象的写法为：
+<code>module.exports = factory()</code>；
+当检测出为AMD规范时，写法为：
+<code>define(factory)</code>。
+为了更直观，改写一下这段代码：</p>
+<pre><code class="language-js">if(typeof exports === &#39;object&#39; &amp;&amp; typeof module !== &#39;undefined&#39;){
+    // Commonjs规范
+    module.exports = factory();
+}else if(typeof define === &#39;function&#39; &amp;&amp; define.amd){
+    // AMD规范
+    define(factory);
+}else{
+    // 其他情况下，将Vue挂载到全局对象中
+    // 在浏览器里就是给Window对象添加Vue属性，属性值为factory()返回的Vue对象
+    global = global || self,
+    global.Vue = factory();
+}
+</code></pre>
 
                 </article>  
             </body>
