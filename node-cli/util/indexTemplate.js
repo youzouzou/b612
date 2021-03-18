@@ -15,6 +15,8 @@ const template = `
         body {
             margin: 0;
             padding: 0;
+            width:100%;
+            overflow-x:hidden;
         }
 
         .content {
@@ -22,6 +24,7 @@ const template = `
             padding: 0;
             width: 100%;
             display: flex;
+            overflow-x:hidden;
         }
 
         .left-content {
@@ -43,16 +46,29 @@ const template = `
         }
 
         @media screen and (max-width: 500px) {
+            html,body{
+                margin:0;
+                padding:0;
+                width:100%;
+                overflow-x:hidden;
+                overflow-y:auto;
+            }
             .content {
                 display: block;
+                width:100%;
+                margin:0;
+                padding:0;
+                overflow-x:hidden;
             }
 
             .left-content {
-                width: 100%;
+                width: 94%;
+                padding:0 3%;
             }
 
             .right-content {
-                width: 100%;
+                width: 94%;
+                padding:0 3%;
             }
         }
 
