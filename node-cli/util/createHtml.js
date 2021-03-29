@@ -21,6 +21,7 @@ class Md2Html {
             template = template.replace('{{{desc}}}', desc);
             template = template.replace('{{{keywords}}}', keywords);
             template = template.replace('{{{content}}}', html); //替换html内容占位标记
+            console.log(123, template);
 
             this.createMarkdownCss(css => {
                 template = template.replace('{{{style}}}', css); //替换css内容占位标记

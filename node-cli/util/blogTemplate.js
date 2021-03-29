@@ -23,6 +23,9 @@ const template = `<!DOCTYPE html>
             </style>
             </head>
             <body>
+                <p>
+                    <a href="../">返回文章列表</a>
+                </p>
                 <article class="markdown-body">
                     {{{content}}}
                 </article>  

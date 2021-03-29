@@ -23,10 +23,6 @@ function updateIndexHTML() {
     let tpl = ``;
     list.forEach(item => {
         const { fileName, title, date } = item;
-        // 添加返回目录
-        tpl += `<p><a href="../">返回目录</a></p>`;
-        // 添加标题
-        tpl += `<blockquote><p>《` + title + `》</p></blockquote>`;
         tpl += `<div><a href="./blogs/` + fileName + `.html">[` + date + `]《` + title + `》</a></div>`;
     })
     updateIndex('../index.html', tpl)

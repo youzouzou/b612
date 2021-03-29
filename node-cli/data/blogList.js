@@ -12,6 +12,13 @@ const blogList = [
         "keywords": "noConflict,源码,backbone,jQuery",
         "fileName": "源码学习之noConflict冲突处理机制",
         "date": "20210318"
+    },
+    {
+        "title": "源码学习之void 0",
+        "desc": "带你解读源码中的void 0",
+        "keywords": "void,void 0,源码",
+        "fileName": "源码学习之void 0",
+        "date": "20210329"
     }
 ]
 

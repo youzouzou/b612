@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) {
 router.get('/init', function (req, res, next) {
   initUtil.updateHTMLList(); // 遍历生成HTML文件
   initUtil.updateIndexHTML(); // 更新index.html
-  res.render('index', { title: '初始化页面' });
+  res.render('index', { title: 'init初始化页面' });
 });
 
 
