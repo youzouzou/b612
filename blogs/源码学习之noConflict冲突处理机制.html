@@ -28,7 +28,7 @@
                 <p>
                     <a href="../">返回文章列表</a>
                 </p>
-                <blockquote><p>源码学习之noConflict冲突处理机制</p></blockquote>
+                <blockquote><p>《源码学习之noConflict冲突处理机制》</p></blockquote>
                     <p>最近接手了一个古早项目，用的backbone，于是正好学习一下早期MVC框架的源码。</p>
 <p>这篇主要写冲突处理机制，源码其实就一个函数，代码也很短。原理也很好理解，总结起来就是：<strong>每执行一次noConflict()函数，框架就往前回退一个版本</strong>。</p>
 <p>这个 <code>回退版本</code>的意思是，当你引用多个backbone.js时，比如按顺序引入了v1、v2、v3，按照正常情况，你现在拿到的是v3，当你执行一次noConflict()之后，你就会回退到v2，再执行一次noConflict()，你就回退到v1，再再执行一次noConflict()，Backbone就是undefined。</p>

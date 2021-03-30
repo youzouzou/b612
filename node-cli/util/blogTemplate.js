@@ -27,7 +27,7 @@ const template = `<!DOCTYPE html>
                 <p>
                     <a href="../">返回文章列表</a>
                 </p>
-                <blockquote><p>{{{title}}}</p></blockquote>
+                <blockquote><p>《{{{title}}}》</p></blockquote>
                     {{{content}}}
                 </article>  
             </body>
