@@ -29,7 +29,10 @@ const template = `<!DOCTYPE html>
                 </p>
                 <blockquote><p>《{{{title}}}》</p></blockquote>
                     {{{content}}}
-                </article>  
+                <blockquote>
+                    文章仅代表个人观点，如有错误，欢迎指正~
+                </blockquote>
+                </article> 
             </body>
         </html>`;
 module.exports = template
