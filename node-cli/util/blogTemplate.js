@@ -23,11 +23,11 @@ const template = `<!DOCTYPE html>
             </style>
             </head>
             <body>
+                <article class="markdown-body">
                 <p>
                     <a href="../">返回文章列表</a>
                 </p>
-                <p>{{{title}}}</p>
-                <article class="markdown-body">
+                <blockquote><p>{{{title}}}</p></blockquote>
                     {{{content}}}
                 </article>  
             </body>
