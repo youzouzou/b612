@@ -17,14 +17,13 @@ class Md2Html {
             }
             const html = this.marked(data); //将md内容转为html内容
             // let template = this.createTemplate();
-            template = template.replace('{{{title}}}', fileName);
-            template = template.replace('{{{desc}}}', desc);
-            template = template.replace('{{{keywords}}}', keywords);
-            template = template.replace('{{{content}}}', html); //替换html内容占位标记
-            console.log(123, template);
+            template = template.replace(/{{{title}}}/g, fileName);
+            template = template.replace(/{{{desc}}}/g, desc);
+            template = template.replace(/{{{keywords}}}/g, keywords);
+            template = template.replace(/{{{content}}}/g, html); //替换html内容占位标记
 
             this.createMarkdownCss(css => {
-                template = template.replace('{{{style}}}', css); //替换css内容占位标记
+                template = template.replace(/{{{style}}}/g, css); //替换css内容占位标记
                 this.createFile(template);
 
             });
