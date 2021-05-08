@@ -3,9 +3,9 @@
             <head>
             <meta charset="utf-8" >
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>源码学习之noop</title>
-            <meta name="keywords" content="noop,源码">
-            <meta name="description" content="带你解读源码中的noop">
+            <title>源码学习之Mustache(双大括号)正则解析</title>
+            <meta name="keywords" content="正则,源码">
+            <meta name="description" content="带你解读源码中正则匹配">
             <style>
                 .markdown-body {
                     box-sizing: border-box;
@@ -28,61 +28,57 @@
                 <p>
                     <a href="../">返回文章列表</a>
                 </p>
-                <blockquote><p>《源码学习之noop》</p></blockquote>
-                    <pre><code class="language-javascript">/**
-   * Perform no operation.
-   * Stubbing args to make Flow happy without leaving useless transpiled code
-   * with ...rest (https://flow.org/blog/2017/05/07/Strict-Function-Call-Arity/).
-   */
-function noop(a, b, c) { }
-</code></pre>
-<p>这是一段vue2里的源码。</p>
-<p>noop，是<code>No Operation</code>或<code>No Operation Performed</code>的缩写，意为无操作或空操作。</p>
-<p>在汇编语言中，NOOP指令通常用于控制时序，强制内存对齐，防止流水线灾难，占据分支指令延迟，或是作为占位符（替代被移除的指令）。</p>
-<p>NOOP在各种语言中的例子：</p>
+                <blockquote><p>《源码学习之Mustache(双大括号)正则解析》</p></blockquote>
+                    <!-- TOC -->
+<h3 id="目录">目录</h3>
 <ul>
-<li>在C语言中，分号（;）或空块（{}）都是NOOP。</li>
-<li>jQuery中，“jQuery.noop()”函数会创建一个NOOP。</li>
-<li>在Perl中，省略号（…）可以用作NOOP。但是如果Perl尝试执行代码，则会给出未实现的异常。</li>
-<li>在Python中，“pass”语句可用作NOOP。</li>
-<li>在Visual Basic中，分号（;）表示NOOP。</li>
+<li><a href="#1-%E6%AD%A3%E5%88%99%E8%AF%AD%E6%B3%95">1. 正则语法</a></li>
+<li><a href="#2-defaulttagre%E8%A7%A3%E6%9E%90">2. defaultTagRE解析</a></li>
+<li><a href="#3-exec%E6%A3%80%E7%B4%A2%E5%8C%B9%E9%85%8D">3. exec()检索匹配</a></li>
 </ul>
-<p>在vue源码中的这个noop函数，主要作用是为一些函数变量提供默认值，避免传入undefined之类的数据导致代码出错。</p>
-<p>比如vue中：</p>
-<pre><code class="language-javascript">    new Watcher(vm, updateComponent, noop, {
-      before: function before() {
-        if (vm._isMounted &amp;&amp; !vm._isDestroyed) {
-          callHook(vm, &#39;beforeUpdate&#39;);
-        }
-      }
-    }, true /* isRenderWatcher */);
+<!-- /TOC -->
+<pre><code class="language-js">var defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g;
 </code></pre>
-<p>Watcher具体实现为：</p>
-<pre><code class="language-javascript">var Watcher = function Watcher(
-    vm,
-    expOrFn,
-    cb,
-    options,
-    isRenderWatcher
-) {
-    ...
+<p>这句就是Vue源码中，用于匹配双大括号的正则语句。</p>
+<h4 id="1-正则语法">1. 正则语法</h4>
+<p>先来复习一下这句正则表达式里出现的一些语法：</p>
+<ul>
+<li><code>\{</code>表示匹配左花括号</li>
+<li><code>\}</code>表示匹配右花括号</li>
+<li><code>()</code>标记一个子表达式的开始和结束位置</li>
+<li><code>?:</code>表示匹配内容，但是不捕获内容</li>
+<li><code>.</code>号匹配除换行符 \n 之外的任何单字符</li>
+<li><code>|</code>表示或，即两者之间满足一个即可匹配</li>
+<li><code>\r</code>匹配回车符</li>
+<li><code>\n</code>匹配换行符</li>
+<li><code>+</code>匹配前面的子表达式一次或多次</li>
+<li><code>/g</code>表示全局匹配</li>
+</ul>
+<h4 id="2-defaulttagre解析">2. defaultTagRE解析</h4>
+<p>再来分析<code>defaultTagRE</code>：</p>
+<ul>
+<li>最外层的<code>\{\{</code>表示匹配两个左大括号，<code>\}\}</code>表示匹配两个右大括号；</li>
+<li>中间括号里的<code>(?:.|\r?\n)</code>表示匹配任意字符，或，回车换行（注意：<code>\r</code>回车后面一定要有换行<code>\n</code>）；至少匹配到一次或多次；使用<code>?:</code>则不会再单独匹配一次子表达式<code>.|\r?\n</code>，可提高性能。</li>
+</ul>
+<h4 id="3-exec检索匹配">3. exec()检索匹配</h4>
+<p>源码中在<code>parseText()</code>方法中使用<code>exec()</code>函数进行检索匹配：</p>
+<p><code>exec()</code>方法返回一个结果数组或null(未匹配成功时)，结果数组的第 0 个元素是与正则表达式相匹配的文本，第 1 个元素是与 正则表达式 的第 1 个子表达式相匹配的文本（如果有的话），第 2 个元素是与 正则表达式 的第 2 个子表达式相匹配的文本（如果有的话），以此类推。</p>
+<p>如：</p>
+<pre><code class="language-js">var defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g;
+const txt = `{{a\n}}{{b}}{{c}}{{\n}}{{ }}`
+while ((match = defaultTagRE.exec(txt))) {
+    console.log(match[1])
 }
 </code></pre>
-<p>给Watcher传入参数noop，就是避免在调用回调函数<code>cb</code>时，程序报错导致中断（传入undefined，执行cb的时候就会报<code>cb is not a function</code>错误）。</p>
-<p>这里也可以直接使用一个无操作的匿名函数<code>()=&gt;{}</code>来代替noop。</p>
-<p>在vue2的源码中，共有20处使用了noop函数，如果每次都创建一个匿名函数，一个是降低了代码的可读性，另一个是在js压缩时，这部分匿名函数是无法被压缩的，降低了代码的压缩率。</p>
-<hr>
-<p>参考资料：</p>
-<ul>
-<li><p><a href="https://zh.wikipedia.org/wiki/NOP">NOP</a></p>
-</li>
-<li><p><a href="https://www.computerhope.com/jargon/n/noop.htm">No-operation instruction</a></p>
-</li>
-<li><p><a href="https://dev.to/praneshpsg239/noop-in-javascript-478h">noop in Javascript</a></p>
-</li>
-<li><p><a href="https://stackoverflow.com/questions/21634886/what-is-the-javascript-convention-for-no-operation">What is the JavaScript convention for no operation?</a></p>
-</li>
-</ul>
+<p>运行结果：</p>
+<pre><code class="language-js">&quot;a↵&quot;
+&quot;b&quot;
+&quot;c&quot;
+&quot;↵&quot;
+&quot; &quot;
+</code></pre>
+<p>这里取的是第 1 个子表达式<code>((?:.|\r?\n)+?)</code>匹配到的文本。</p>
+<p>可以看到最后两个结果，换行符和空格也通过了正则匹配，因此在源码中还须用<code>trim()</code>进一步处理。</p>
 
                 <blockquote>
                     文章仅代表个人观点，如有错误，欢迎指正~
