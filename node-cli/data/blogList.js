@@ -33,6 +33,13 @@ const blogList = [
         "keywords": "正则,源码",
         "fileName": "源码学习之Mustache(双大括号)正则解析",
         "date": "20210508"
+    },
+    {
+        "title": "[高效工具]vscode配置jsx模板",
+        "desc": "工欲善其事必先利其器",
+        "keywords": "工具,vscode",
+        "fileName": "[高效工具]vscode配置jsx模板",
+        "date": "20210520"
     }
 ]
 
