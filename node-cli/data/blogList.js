@@ -40,6 +40,13 @@ const blogList = [
         "keywords": "工具,vscode",
         "fileName": "[高效工具]vscode配置jsx模板",
         "date": "20210520"
+    },
+    {
+        "title": "在线博客转PDF电子书|JS爬虫初探",
+        "desc": "JS爬虫也疯狂",
+        "keywords": "爬虫,nodejs,node,js,gitbook,电子书,pdf",
+        "fileName": "在线博客转PDF电子书-JS爬虫初探",
+        "date": "20210618"
     }
 ]
 
