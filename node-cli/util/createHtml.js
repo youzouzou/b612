@@ -23,7 +23,6 @@ class Md2Html {
 
       this.createMarkdownCss(css => {
         template = template.replace(/{{{style}}}/g, css); //替换css内容占位标记
-        console.log(new Date().getTime());
         this.createFile(template);
       });
     });
@@ -79,6 +78,8 @@ class Md2Html {
     this.request(url, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         fn && fn(body);
+      } else {
+        console.log(error)
       }
     });
   }

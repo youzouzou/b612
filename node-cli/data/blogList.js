@@ -67,6 +67,13 @@ const blogList = [{
     "keywords": "脚手架,前端,cli",
     "fileName": "手摸手教你搭个脚手架",
     "date": "20210711"
+  },
+  {
+    "title": "用魔法打败魔法：前端代码规范化",
+    "desc": "代码规范化",
+    "keywords": "husky,eslint,commitizen",
+    "fileName": "用魔法打败魔法：前端代码规范化",
+    "date": "20210723"
   }
 ]
 
