@@ -23,8 +23,8 @@ class Md2Html {
 
       this.createMarkdownCss(css => {
         template = template.replace(/{{{style}}}/g, css); //替换css内容占位标记
+        console.log(new Date().getTime());
         this.createFile(template);
-
       });
     });
     // this.watchFile();

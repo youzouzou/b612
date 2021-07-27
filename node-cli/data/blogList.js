@@ -60,6 +60,13 @@ const blogList = [{
     "keywords": "chrome,插件开发",
     "fileName": "手摸手教你写个chrome插件",
     "date": "20210702"
+  },
+  {
+    "title": "手摸手教你搭个脚手架",
+    "desc": "cli脚手架",
+    "keywords": "脚手架,前端,cli",
+    "fileName": "手摸手教你搭个脚手架",
+    "date": "20210711"
   }
 ]
 
