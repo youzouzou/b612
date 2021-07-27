@@ -53,6 +53,13 @@ const blogList = [{
     "keywords": "npm,私有库,verdaccio",
     "fileName": "手摸手教你搭建npm私有库",
     "date": "20210628"
+  },
+  {
+    "title": "手摸手教你写个chrome插件",
+    "desc": "chrome插件",
+    "keywords": "chrome,插件开发",
+    "fileName": "手摸手教你写个chrome插件",
+    "date": "20210702"
   }
 ]
 
