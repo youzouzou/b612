@@ -12,25 +12,33 @@ const createHtml = require('../util/createHtml');
 const updateIndex = require('../util/updateIndex');
 
 function updateHTMLList() {
-    list.forEach(item => {
-        const { fileName, desc, keywords } = item;
-        const target = './../blogs/md/' + fileName + '.md';
-        new createHtml(target, dist, fileName, desc, keywords, blogTemplate);
-    })
+  list.forEach(item => {
+    const {
+      fileName,
+      desc,
+      keywords
+    } = item;
+    const target = './../blogs/md/' + fileName + '.md';
+    new createHtml(target, dist, fileName, desc, keywords, blogTemplate);
+  })
 }
 
 function updateIndexHTML() {
-    let tpl = ``;
-    list.forEach(item => {
-        const { fileName, title, date } = item;
-        tpl += `<div><a href="./blogs/` + fileName + `.html">[` + date + `]《` + title + `》</a></div>`;
-    })
-    updateIndex('../index.html', tpl)
+  let tpl = ``;
+  list.forEach(item => {
+    const {
+      fileName,
+      title,
+      date
+    } = item;
+    tpl += `<div><a href="./blogs/` + fileName + `.html">[` + date + `]《` + title + `》</a></div>`;
+  })
+  updateIndex('../index.html', tpl)
 }
 
 const initUtil = {
-    updateHTMLList,
-    updateIndexHTML
+  updateHTMLList,
+  updateIndexHTML
 }
 
 module.exports = initUtil;

@@ -84,7 +84,7 @@ page.open(address, function (status) {
 
 首先，观察需要爬取的dom元素的特点：
 我需要爬取的内容如图所示
-![](https://files.mdnice.com/user/14530/3b80486b-7457-4690-b51c-c57c0a3c7078.png)
+![](https://img-blog.csdnimg.cn/img_convert/fce31d95f33e7eadfd7cb798a7681f5e.png)
 这部分的内容可以通过.theme-default-content样式获取到：
 
 ```js
@@ -109,7 +109,7 @@ https.get(url, function (res) {
 通过这段代码得到的main就是我们要获取的主体dom。
 
 其次，观察图片资源的url：
-![](https://files.mdnice.com/user/14530/36783b29-6806-447b-bc60-4b03676165e1.png)
+![](https://img-blog.csdnimg.cn/img_convert/e78cd252d52c6d361a3c6409db6ec8a9.png)
 这里用的是相对路径，所以需要对图片路径进行处理：
 
 ```js
@@ -120,7 +120,7 @@ main = main.replace(/src=\"\/img/g, "src=\"" + prefixUrl + "/img")
 ```
 
 观察下一页的url地址，都是在一个样式名为`next`的`span`标签内：
-![](https://files.mdnice.com/user/14530/c5102690-6dd6-475c-b3d1-8272ebf1f001.png)
+![](https://img-blog.csdnimg.cn/img_convert/a66a2efb71ae013488ade131696d5ddf.png)
 获取下一页内容的代码如下：
 ```js
 var $ = cheerio.load(str);
@@ -157,4 +157,4 @@ function htmlTopdf() {
 
 Demo已开源：[https://github.com/youzouzou/node-crawler/blob/main/routes/index.js](https://github.com/youzouzou/node-crawler/blob/main/routes/index.js)
 
-`npm install`后打开`http://localhost:3009/` 即可生成pdf。
+`npm install`&`npm run start`打开`http://localhost:3009/` 即可生成pdf。

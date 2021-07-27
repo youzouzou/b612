@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+        <html>
+            <head>
+            <meta charset="utf-8" >
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>在线博客转PDF电子书之JS爬虫初探</title>
+            <meta name="keywords" content="爬虫,nodejs,node,js,gitbook,电子书,pdf">
+            <meta name="description" content="JS爬虫也疯狂">
+            <style>
+                .markdown-body {
+                    box-sizing: border-box;
+                    min-width: 200px;
+                    max-width: 980px;
+                    margin: 0 auto;
+                    padding: 45px;
+                }
+                @media (max-width: 767px) {
+                    .markdown-body {
+                        padding: 15px;
+                    }
+                }
+                @font-face{font-family:octicons-link;src:url(data:font/woff;charset=utf-8;base64,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) format('woff')}.markdown-body .octicon{display:inline-block;fill:currentColor;vertical-align:text-bottom}.markdown-body .anchor{float:left;line-height:1;margin-left:-20px;padding-right:4px}.markdown-body .anchor:focus{outline:0}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;color:#24292e;line-height:1.5;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body .pl-c{color:#6a737d}.markdown-body .pl-c1,.markdown-body .pl-s .pl-v{color:#005cc5}.markdown-body .pl-e,.markdown-body .pl-en{color:#6f42c1}.markdown-body .pl-s .pl-s1,.markdown-body .pl-smi{color:#24292e}.markdown-body .pl-ent{color:#22863a}.markdown-body .pl-k{color:#d73a49}.markdown-body .pl-pds,.markdown-body .pl-s,.markdown-body .pl-s .pl-pse .pl-s1,.markdown-body .pl-sr,.markdown-body .pl-sr .pl-cce,.markdown-body .pl-sr .pl-sra,.markdown-body .pl-sr .pl-sre{color:#032f62}.markdown-body .pl-smw,.markdown-body .pl-v{color:#e36209}.markdown-body .pl-bu{color:#b31d28}.markdown-body .pl-ii{background-color:#b31d28;color:#fafbfc}.markdown-body .pl-c2{background-color:#d73a49;color:#fafbfc}.markdown-body .pl-c2:before{content:"^M"}.markdown-body .pl-sr .pl-cce{color:#22863a;font-weight:700}.markdown-body .pl-ml{color:#735c0f}.markdown-body .pl-mh,.markdown-body .pl-mh .pl-en,.markdown-body .pl-ms{color:#005cc5;font-weight:700}.markdown-body .pl-mi{color:#24292e;font-style:italic}.markdown-body .pl-mb{color:#24292e;font-weight:700}.markdown-body .pl-md{background-color:#ffeef0;color:#b31d28}.markdown-body .pl-mi1{background-color:#f0fff4;color:#22863a}.markdown-body .pl-mc{background-color:#ffebda;color:#e36209}.markdown-body .pl-mi2{background-color:#005cc5;color:#f6f8fa}.markdown-body .pl-mdr{color:#6f42c1;font-weight:700}.markdown-body .pl-ba{color:#586069}.markdown-body .pl-sg{color:#959da5}.markdown-body .pl-corl{color:#032f62;text-decoration:underline}.markdown-body details{display:block}.markdown-body summary{display:list-item}.markdown-body a{background-color:transparent}.markdown-body a:active,.markdown-body a:hover{outline-width:0}.markdown-body strong{font-weight:inherit;font-weight:bolder}.markdown-body h1{font-size:2em;margin:.67em 0}.markdown-body img{border-style:none}.markdown-body code,.markdown-body kbd,.markdown-body pre{font-family:monospace,monospace;font-size:1em}.markdown-body hr{box-sizing:content-box;height:0;overflow:visible}.markdown-body input{font:inherit;margin:0}.markdown-body input{overflow:visible}.markdown-body [type=checkbox]{box-sizing:border-box;padding:0}.markdown-body *{box-sizing:border-box}.markdown-body input{font-family:inherit;font-size:inherit;line-height:inherit}.markdown-body a{color:#0366d6;text-decoration:none}.markdown-body a:hover{text-decoration:underline}.markdown-body strong{font-weight:600}.markdown-body hr{background:0 0;border:0;border-bottom:1px solid #dfe2e5;height:0;margin:15px 0;overflow:hidden}.markdown-body hr:before{content:"";display:table}.markdown-body hr:after{clear:both;content:"";display:table}.markdown-body table{border-collapse:collapse;border-spacing:0}.markdown-body td,.markdown-body th{padding:0}.markdown-body details summary{cursor:pointer}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-bottom:0;margin-top:0}.markdown-body h1{font-size:32px}.markdown-body h1,.markdown-body h2{font-weight:600}.markdown-body h2{font-size:24px}.markdown-body h3{font-size:20px}.markdown-body h3,.markdown-body h4{font-weight:600}.markdown-body h4{font-size:16px}.markdown-body h5{font-size:14px}.markdown-body h5,.markdown-body h6{font-weight:600}.markdown-body h6{font-size:12px}.markdown-body p{margin-bottom:10px;margin-top:0}.markdown-body blockquote{margin:0}.markdown-body ol,.markdown-body ul{margin-bottom:0;margin-top:0;padding-left:0}.markdown-body ol ol,.markdown-body ul ol{list-style-type:lower-roman}.markdown-body ol ol ol,.markdown-body ol ul ol,.markdown-body ul ol ol,.markdown-body ul ul ol{list-style-type:lower-alpha}.markdown-body dd{margin-left:0}.markdown-body code,.markdown-body pre{font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;font-size:12px}.markdown-body pre{margin-bottom:0;margin-top:0}.markdown-body input::-webkit-inner-spin-button,.markdown-body input::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}.markdown-body .border{border:1px solid #e1e4e8!important}.markdown-body .border-0{border:0!important}.markdown-body .border-bottom{border-bottom:1px solid #e1e4e8!important}.markdown-body .rounded-1{border-radius:3px!important}.markdown-body .bg-white{background-color:#fff!important}.markdown-body .bg-gray-light{background-color:#fafbfc!important}.markdown-body .text-gray-light{color:#6a737d!important}.markdown-body .mb-0{margin-bottom:0!important}.markdown-body .my-2{margin-bottom:8px!important;margin-top:8px!important}.markdown-body .pl-0{padding-left:0!important}.markdown-body .py-0{padding-bottom:0!important;padding-top:0!important}.markdown-body .pl-1{padding-left:4px!important}.markdown-body .pl-2{padding-left:8px!important}.markdown-body .py-2{padding-bottom:8px!important;padding-top:8px!important}.markdown-body .pl-3,.markdown-body .px-3{padding-left:16px!important}.markdown-body .px-3{padding-right:16px!important}.markdown-body .pl-4{padding-left:24px!important}.markdown-body .pl-5{padding-left:32px!important}.markdown-body .pl-6{padding-left:40px!important}.markdown-body .f6{font-size:12px!important}.markdown-body .lh-condensed{line-height:1.25!important}.markdown-body .text-bold{font-weight:600!important}.markdown-body:before{content:"";display:table}.markdown-body:after{clear:both;content:"";display:table}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-bottom:16px;margin-top:0}.markdown-body hr{background-color:#e1e4e8;border:0;height:.25em;margin:24px 0;padding:0}.markdown-body blockquote{border-left:.25em solid #dfe2e5;color:#6a737d;padding:0 1em}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd{background-color:#fafbfc;border:1px solid #c6cbd1;border-bottom-color:#959da5;border-radius:3px;box-shadow:inset 0 -1px 0 #959da5;color:#444d56;display:inline-block;font-size:11px;line-height:10px;padding:3px 5px;vertical-align:middle}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{font-weight:600;line-height:1.25;margin-bottom:16px;margin-top:24px}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{border-bottom:1px solid #eaecef;padding-bottom:.3em}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{color:#6a737d;font-size:.85em}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-bottom:0;margin-top:0}.markdown-body li{word-wrap:break-all}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{font-size:1em;font-style:italic;font-weight:600;margin-top:16px;padding:0}.markdown-body dl dd{margin-bottom:16px;padding:0 16px}.markdown-body table{display:block;overflow:auto;width:100%}.markdown-body table th{font-weight:600}.markdown-body table td,.markdown-body table th{border:1px solid #dfe2e5;padding:6px 13px}.markdown-body table tr{background-color:#fff;border-top:1px solid #c6cbd1}.markdown-body table tr:nth-child(2n){background-color:#f6f8fa}.markdown-body img{background-color:#fff;box-sizing:content-box;max-width:100%}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body code{background-color:rgba(27,31,35,.05);border-radius:3px;font-size:85%;margin:0;padding:.2em .4em}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{background:0 0;border:0;font-size:100%;margin:0;padding:0;white-space:pre;word-break:normal}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{background-color:#f6f8fa;border-radius:3px;font-size:85%;line-height:1.45;overflow:auto;padding:16px}.markdown-body pre code{background-color:transparent;border:0;display:inline;line-height:inherit;margin:0;max-width:auto;overflow:visible;padding:0;word-wrap:normal}.markdown-body .commit-tease-sha{color:#444d56;display:inline-block;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;font-size:90%}.markdown-body .blob-wrapper{border-bottom-left-radius:3px;border-bottom-right-radius:3px;overflow-x:auto;overflow-y:hidden}.markdown-body .blob-wrapper-embedded{max-height:240px;overflow-y:auto}.markdown-body .blob-num{-moz-user-select:none;-ms-user-select:none;-webkit-user-select:none;color:rgba(27,31,35,.3);cursor:pointer;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;font-size:12px;line-height:20px;min-width:50px;padding-left:10px;padding-right:10px;text-align:right;user-select:none;vertical-align:top;white-space:nowrap;width:1%}.markdown-body .blob-num:hover{color:rgba(27,31,35,.6)}.markdown-body .blob-num:before{content:attr(data-line-number)}.markdown-body .blob-code{line-height:20px;padding-left:10px;padding-right:10px;position:relative;vertical-align:top}.markdown-body .blob-code-inner{color:#24292e;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;font-size:12px;overflow:visible;white-space:pre;word-wrap:normal}.markdown-body .pl-token.active,.markdown-body .pl-token:hover{background:#ffea7f;cursor:pointer}.markdown-body kbd{background-color:#fafbfc;border:1px solid #d1d5da;border-bottom-color:#c6cbd1;border-radius:3px;box-shadow:inset 0 -1px 0 #c6cbd1;color:#444d56;display:inline-block;font:11px SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;line-height:10px;padding:3px 5px;vertical-align:middle}.markdown-body :checked+.radio-label{border-color:#0366d6;position:relative;z-index:1}.markdown-body .tab-size[data-tab-size="1"]{-moz-tab-size:1;tab-size:1}.markdown-body .tab-size[data-tab-size="2"]{-moz-tab-size:2;tab-size:2}.markdown-body .tab-size[data-tab-size="3"]{-moz-tab-size:3;tab-size:3}.markdown-body .tab-size[data-tab-size="4"]{-moz-tab-size:4;tab-size:4}.markdown-body .tab-size[data-tab-size="5"]{-moz-tab-size:5;tab-size:5}.markdown-body .tab-size[data-tab-size="6"]{-moz-tab-size:6;tab-size:6}.markdown-body .tab-size[data-tab-size="7"]{-moz-tab-size:7;tab-size:7}.markdown-body .tab-size[data-tab-size="8"]{-moz-tab-size:8;tab-size:8}.markdown-body .tab-size[data-tab-size="9"]{-moz-tab-size:9;tab-size:9}.markdown-body .tab-size[data-tab-size="10"]{-moz-tab-size:10;tab-size:10}.markdown-body .tab-size[data-tab-size="11"]{-moz-tab-size:11;tab-size:11}.markdown-body .tab-size[data-tab-size="12"]{-moz-tab-size:12;tab-size:12}.markdown-body .task-list-item{list-style-type:none}.markdown-body .task-list-item+.task-list-item{margin-top:3px}.markdown-body .task-list-item input{margin:0 .2em .25em -1.6em;vertical-align:middle}.markdown-body hr{border-bottom-color:#eee}.markdown-body .pl-0{padding-left:0!important}.markdown-body .pl-1{padding-left:4px!important}.markdown-body .pl-2{padding-left:8px!important}.markdown-body .pl-3{padding-left:16px!important}.markdown-body .pl-4{padding-left:24px!important}.markdown-body .pl-5{padding-left:32px!important}.markdown-body .pl-6{padding-left:40px!important}.markdown-body .pl-7{padding-left:48px!important}.markdown-body .pl-8{padding-left:64px!important}.markdown-body .pl-9{padding-left:80px!important}.markdown-body .pl-10{padding-left:96px!important}.markdown-body .pl-11{padding-left:112px!important}.markdown-body .pl-12{padding-left:128px!important}
+/*# sourceMappingURL=github-markdown.min.css.map */
+            </style>
+            </head>
+            <body>
+                <article class="markdown-body">
+                <p>
+                    <a href="../">返回文章列表</a>
+                </p>
+                <blockquote><p>《在线博客转PDF电子书之JS爬虫初探》</p></blockquote>
+                    <p>最近在看一位大佬写的源码解析博客，平时上下班用手机看不太得劲，但是平板又没有网卡，所以就想搞个离线pdf版，方便通勤时间学习阅读。</p>
+<p>所以，问题来了: <em>怎么把在线网页内容转成pdf？</em></p>
+<p>这位大佬的博客是用gitbook写的，我先上网搜了下工具，发现大多是将自己本地gitbook转pdf，只有一个开源工具是用python爬取的在线gitbook，但是一看issues，中文乱码、空白页、看不到图等等问题都没解决，遂放弃……</p>
+<p>经过我不懈的搜索，终于找到了一个可以直接把网页保存成pdf工具：<strong>phantomjs</strong>。 </p>
+<p>phantomjs是一个无界面的，可脚本编程的 WebKit 浏览器引擎，也就是俗称的“无头浏览器”，常用于爬取网页信息。</p>
+<p>下载地址：<a href="https://phantomjs.org/download.html">https://phantomjs.org/download.html</a></p>
+<p>我用的是win系统，下载后在bin目录下找到.exe文件，然后新建如下js脚本：</p>
+<pre><code class="language-js">// html2pdf.js
+var page = require(&#39;webpage&#39;).create();
+var system = require(&#39;system&#39;);
+
+if (system.args.length === 1) {
+    console.log(&#39;Usage: loadspeed.js &lt;some URL&gt;&#39;);
+    //这行代码很重要。凡是结束必须调用。否则phantomjs不会停止
+    phantom.exit();
+}
+page.settings.loadImages = true;  //加载图片
+page.settings.resourceTimeout = 30000;//超过10秒放弃加载
+//截图设置，
+//page.viewportSize = {
+//  width: 1000,
+//  height: 3000
+//};
+var address = system.args[1];
+var name = system.args[2];
+page.open(address, function (status) {
+
+    function checkReadyState() {//等待加载完成将页面生成pdf
+        setTimeout(function () {
+            var readyState = page.evaluate(function () {
+                return document.readyState;
+            });
+
+            if (&quot;complete&quot; === readyState) {
+
+                page.paperSize = { width: &#39;297mm&#39;, height: &#39;500mm&#39;, orientation: &#39;portrait&#39;, border: &#39;1cm&#39; };
+                var timestamp = Date.parse(new Date());
+                var pdfname = name;
+                var outpathstr = &quot;C:/Users/Desktop/pdfs/&quot; + pdfname + &quot;.pdf&quot;; // 输出路径
+                page.render(outpathstr);
+                console.log(&quot;生成成功&quot;);
+                console.log(&quot;{{{content}}}quot; + outpathstr + &quot;{{{content}}}quot;);
+                phantom.exit();
+            } else {
+                checkReadyState();
+            }
+        }, 1000);
+    }
+    checkReadyState();
+});
+</code></pre>
+<p>控制台cd进入bin目录，命令行执行：
+<code>phantomjs html2pdf.js http://xxx.xx.xxx(博客所在地址)</code>
+即可将该网页转成一个pdf。</p>
+<p>这时候问题又来了:</p>
+<ol>
+<li>phantomjs不能自动截取下一页；</li>
+<li>每一个网页都只能生成一个pdf，最后还要找工具把所有pdf合并成一个；</li>
+<li>保存的实际上是网页的截图，对于侧边栏、顶部栏、底部等我不需要的内容也会保存到页面中，不能很好地适配。</li>
+</ol>
+<p>思考和观察得出解决办法：</p>
+<ul>
+<li>这个博客的网址除了域名统一外并没有其他规律，只能手动维护一个url列表，然后通过脚本遍历来解决第 1 个问题；</li>
+<li>pdf合并工具网上有现成的，第 2 个问题也能解决；</li>
+<li>phantomjs是可以对dom进行操作的，但是有个问题，页面里如果有异步请求的资源，比如图片，就需要延迟截图时间，否则会出现很多空白区域，具体解决办法可以参见这篇博客：<a href="https://www.cnblogs.com/xiehuiqi220/p/3551699.html">使用phantomjs操作DOM并对页面进行截图需要注意的几个问题</a>。</li>
+</ul>
+<p>问题虽然是能解决，但是过于麻烦，而且这个dom操作并不能在截图的时候去掉多余内容。</p>
+<p>经过上面一系列骚操作，我受到了启发，从而有了一个全新的思路：</p>
+<p><strong>通过dom操作，把整个博客的内容都爬到一个html文件中，再把这个html文件转成pdf。</strong></p>
+<p>话不多说，直接开撸。</p>
+<p>为了避开浏览器同源网络策略，我基于之前搭建的node+express本地服务，并引入插件cheerio(用于dom操作)、html-pdf(用于将网页转成pdf)来实现。</p>
+<p>首先，观察需要爬取的dom元素的特点：
+我需要爬取的内容如图所示
+<img src="https://img-blog.csdnimg.cn/img_convert/fce31d95f33e7eadfd7cb798a7681f5e.png" alt="">
+这部分的内容可以通过.theme-default-content样式获取到：</p>
+<pre><code class="language-js">https.get(url, function (res) {
+    var str = &quot;&quot;;
+    //绑定方法，获取网页数据
+    res.on(&quot;data&quot;, function (chunk) {
+      str += chunk;
+    })
+    //数据获取完毕
+    res.on(&quot;end&quot;, function () {
+      //沿用JQuery风格，定义$
+      var $ = cheerio.load(str);
+      //获取的数据数组
+      var arr = $(&quot;.theme-default-content&quot;);
+      var main = &quot;&quot;;
+      if (arr &amp;&amp; arr.length &gt; 0) {
+          main = arr[0]
+      }
+    })
+</code></pre>
+<p>通过这段代码得到的main就是我们要获取的主体dom。</p>
+<p>其次，观察图片资源的url：
+<img src="https://img-blog.csdnimg.cn/img_convert/e78cd252d52c6d361a3c6409db6ec8a9.png" alt="">
+这里用的是相对路径，所以需要对图片路径进行处理：</p>
+<pre><code class="language-js">// 将上面得到的main转为字符串便于处理
+main = $.html(main)
+// 对图片路径进行补全
+main = main.replace(/src=\&quot;\/img/g, &quot;src=\&quot;&quot; + prefixUrl + &quot;/img&quot;)
+</code></pre>
+<p>观察下一页的url地址，都是在一个样式名为<code>next</code>的<code>span</code>标签内：
+<img src="https://img-blog.csdnimg.cn/img_convert/a66a2efb71ae013488ade131696d5ddf.png" alt="">
+获取下一页内容的代码如下：</p>
+<pre><code class="language-js">var $ = cheerio.load(str);
+var arr = $(&quot;.next&quot;);
+var nextData = &quot;&quot;;
+if (arr &amp;&amp; arr.length &gt; 0) {
+    nextData = arr[0]
+    if (nextData &amp;&amp; nextData.children &amp;&amp; nextData.children[0] &amp;&amp; nextData.children[0].attribs) {
+    // 下一页地址：prefixUrl + nextData.children[0].attribs.href
+  } else {
+    // 没有下一页
+  }
+}
+</code></pre>
+<p>最后还需要把html转成pdf：</p>
+<pre><code>function htmlTopdf() {
+  var html = fs.readFileSync(path.resolve(__dirname, htmlFileName), &#39;utf8&#39;);
+  var options = { format: &#39;A4&#39; };
+  pdf.create(html, options).toFile(path.resolve(__dirname, pdfFileName), function (err, res) {
+    if (err) return console.log(&quot;error message&quot;, err);
+    console.log(res);
+  });
+}
+</code></pre>
+<p>总结一下<strong>实现思路</strong>：</p>
+<ol>
+<li>通过dom操作抓取到主体内容，并对其中的图片等资源进行处理，然后保存到html文件中；</li>
+<li>找到下一页的url，将下一页的主体内容继续拼到html文件后；</li>
+<li>最后将html转成pdf保存。</li>
+</ol>
+<p>上面的代码不是通用的，但是如果要抓取其他网页的话，思路基本都是这三步。</p>
+<p>Demo已开源：<a href="https://github.com/youzouzou/node-crawler/blob/main/routes/index.js">https://github.com/youzouzou/node-crawler/blob/main/routes/index.js</a></p>
+<p><code>npm install</code>&amp;<code>npm run start</code>打开<code>http://localhost:3009/</code> 即可生成pdf。</p>
+
+                <blockquote>
+                    文章仅代表个人观点，如有错误，欢迎指正~
+                </blockquote>
+                </article> 
+            </body>
+        </html>
