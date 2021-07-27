@@ -46,6 +46,13 @@ const blogList = [{
     "keywords": "爬虫,nodejs,node,js,gitbook,电子书,pdf",
     "fileName": "在线博客转PDF电子书之JS爬虫初探",
     "date": "20210618"
+  },
+  {
+    "title": "手摸手教你搭建npm私有库",
+    "desc": "npm私有库",
+    "keywords": "npm,私有库,verdaccio",
+    "fileName": "手摸手教你搭建npm私有库",
+    "date": "20210628"
   }
 ]
 
